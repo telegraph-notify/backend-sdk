@@ -63,7 +63,6 @@ class BackendSDK {
     try {
       const url = this.baseUrl + "/adduser";
       const payload = {
-        secretKey: this.secretKey,
         id,
         name,
         email,
@@ -74,6 +73,7 @@ class BackendSDK {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: this.secretKey,
         },
         body: JSON.stringify(payload),
       });
@@ -89,7 +89,6 @@ class BackendSDK {
     try {
       const url = this.baseUrl + "/edituser";
       const payload = {
-        secretKey: this.secretKey,
         id,
         name,
         email,
@@ -100,6 +99,7 @@ class BackendSDK {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: this.secretKey,
         },
         body: JSON.stringify(payload),
       });
@@ -115,7 +115,6 @@ class BackendSDK {
     try {
       const url = this.baseUrl + "/deleteuser";
       const payload = {
-        secretKey: this.secretKey,
         id,
       };
 
@@ -123,6 +122,7 @@ class BackendSDK {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: this.secretKey,
         },
         body: JSON.stringify(payload),
       });
@@ -139,7 +139,6 @@ class BackendSDK {
     try {
       const url = this.baseUrl + "/getuser";
       const payload = {
-        secretKey: this.secretKey,
         id,
       };
 
@@ -147,6 +146,7 @@ class BackendSDK {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: this.secretKey,
         },
         body: JSON.stringify(payload),
       });
