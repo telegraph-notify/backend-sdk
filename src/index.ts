@@ -66,7 +66,7 @@ class BackendSDK {
         id,
         name,
         email,
-        hash: this.generateUserHash(id),
+        userHash: this.generateUserHash(id),
       };
 
       let response = await fetch(url, {
@@ -92,7 +92,7 @@ class BackendSDK {
         id,
         name,
         email,
-        hash: this.generateUserHash(id),
+        userHash: this.generateUserHash(id),
       };
 
       let response = await fetch(url, {
