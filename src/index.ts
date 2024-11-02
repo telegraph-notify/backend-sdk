@@ -27,15 +27,6 @@ class BackendSDK {
       .digest("base64");
   }
 
-  // send a notification
-  // async send(id: string, message: string) {
-  //   let response = await axios.post(this.baseUrl + "/notifications", {
-  //     id,
-  //     message,
-  //   });
-  //   return response;
-  // }
-
   async send(id: string, message: string) {
     try {
       const url = this.baseUrl + "/notifications";
@@ -61,7 +52,7 @@ class BackendSDK {
 
   async addUser(id: string, name: string, email: string) {
     try {
-      const url = this.baseUrl + "/adduser";
+      const url = this.baseUrl + "/user";
       const payload = {
         id,
         name,
@@ -87,7 +78,7 @@ class BackendSDK {
 
   async editUser(id: string, name: string, email: string) {
     try {
-      const url = this.baseUrl + "/edituser";
+      const url = this.baseUrl + "/user";
       const payload = {
         id,
         name,
@@ -96,7 +87,7 @@ class BackendSDK {
       };
 
       let response = await fetch(url, {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: this.secretKey,
@@ -113,13 +104,13 @@ class BackendSDK {
 
   async deleteUser(id: string) {
     try {
-      const url = this.baseUrl + "/deleteuser";
+      const url = this.baseUrl + "/user";
       const payload = {
         id,
       };
 
       let response = await fetch(url, {
-        method: "POST",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           Authorization: this.secretKey,
@@ -137,18 +128,14 @@ class BackendSDK {
 
   async getUser(id: string) {
     try {
-      const url = this.baseUrl + "/getuser";
-      const payload = {
-        id,
-      };
+      const queryString = `?user_id=${encodeURIComponent(id)}`;
+      const url = this.baseUrl + `/user${queryString}`;
 
       let response = await fetch(url, {
-        method: "POST",
+        method: "GET",
         headers: {
-          "Content-Type": "application/json",
           Authorization: this.secretKey,
         },
-        body: JSON.stringify(payload),
       });
 
       let message;
