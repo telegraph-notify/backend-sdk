@@ -128,7 +128,7 @@ class BackendSDK {
 
   async getUser(id: string) {
     try {
-      const queryString = `?user_id=${encodeURIComponent(id)}`;
+      const queryString = `?id=${encodeURIComponent(id)}`;
       const url = this.baseUrl + `/user${queryString}`;
 
       let response = await fetch(url, {
