@@ -27,11 +27,11 @@ class BackendSDK {
       .digest("base64");
   }
 
-  async send(id: string, message: string) {
+  async send(user_id: string, message: string) {
     try {
-      const url = this.baseUrl + "/notifications";
+      const url = this.baseUrl + "/notification";
       const payload = {
-        id,
+        user_id,
         message,
       };
 
