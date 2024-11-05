@@ -39,6 +39,7 @@ class BackendSDK {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: this.secretKey,
         },
         body: JSON.stringify(payload),
       });
