@@ -39,11 +39,12 @@ class BackendSDK {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: this.secretKey,
         },
         body: JSON.stringify(payload),
       });
 
-      const responseMessage = await response.text();
+      const responseMessage = await response.json();
       return { status: response.status, responseMessage };
     } catch (error) {
       return { status: 400, message: "error" };
