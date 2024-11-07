@@ -1,4 +1,4 @@
-## Telegraph Express.js SDK
+## Telegraph Node.js SDK
 ```
 import BackendSDK from "./backend-sdk/src/index.ts";
 const telegraph = new BackendSDK(secretKey, httpGateway);
