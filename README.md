@@ -154,3 +154,38 @@ telegraph.getUser(id);
         "message": "error"
       }
       ```
+
+## Get All Users
+```
+telegraph.getAllUsers();
+```
+
+**Response:**
+  - **Success (200 OK)**: Returns an array of users.
+    - Example:
+      ```json
+      {
+        "status": 200,
+        "message":
+          [
+            {
+              "id": "bob",
+              "email": "bob@bob.com",
+              "name": "bob",
+            },
+            {
+              "id": "alice",
+              "email": "alice@alice.com",
+              "name": "alice",
+            }
+          ]
+      }
+      ```
+  - **Error (400 Bad Request)**: If there is an error with the request.
+    - Example:
+      ```json
+      {
+        "status": 400,
+        "message": "error"
+      }
+      ```
