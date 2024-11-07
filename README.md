@@ -17,14 +17,20 @@ telegraph.send(user_id, message);
   - `message` _(string, required)_: The message to be sent to the user.
 
 **Response:**
-  - **Success (200 OK)**: Returns a JSON object with the status code and a success message.
+  - **Success (200 OK)**: Returns a JSON object with the status code and response message.
     - Example:
       ```json
       {
         "status": 200,
         "responseMessage": {
-          "success": true,
-          "message": "Notification sent successfully"
+          "user_id": "bob",
+          "created_at": "Thu, 07 Nov 2024 06:18:18 GMT",
+          "status": "notification request received",
+          "notification_id": "cd91d909-be1b-4603-a37a-4426ac10499f",
+          "log_id": "d24a60bc-a8c6-4f04-9f58-1f8de6bb217c",
+          "ttl": 1733552298,
+          "message": "hi",
+          "channel": "in-app"
         }
       }
       ```
@@ -36,7 +42,7 @@ telegraph.send(user_id, message);
         "message": "error"
       }
       ```
-
+      
 ## Add User
 ```
 telegraph.addUser(id, name, email);
