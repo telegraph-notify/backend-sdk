@@ -1,5 +1,5 @@
 {
-  "name": "testing-telegraph-backend-sdk",
+  "name": "@telegraph-notify/backend-sdk",
   "repository": {
     "type": "git",
     "url": "https://github.com/telegraph-notify/backend-sdk.git"
