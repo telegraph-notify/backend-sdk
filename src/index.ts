@@ -1,13 +1,3 @@
-/*
-The purpose of the backend sdk is to provide an interface for users of the NaaS
-to easily interact with the server for common tasks such as: 
-  - dispatching events to be sent to users
-  - adding users
-  - modifying user preferences/attributes
-  -etc.
-
-*/
-import axios from "axios";
 import crypto from "node:crypto";
 
 class BackendSDK {
@@ -19,7 +9,7 @@ class BackendSDK {
     this.secretKey = secretKey;
   }
 
-  // creates sha256 naasId from the api secret key and username
+  // creates sha256 HMAC from the api secret key and username
   generateUserHash(username: string): string {
     return crypto
       .createHmac("sha256", this.secretKey)
