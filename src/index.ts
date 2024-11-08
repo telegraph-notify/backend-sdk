@@ -119,8 +119,32 @@ class BackendSDK {
 
   async getUser(id: string) {
     try {
-      const queryString = `?id=${encodeURIComponent(id)}`;
-      const url = this.baseUrl + `/user${queryString}`;
+      const url = this.baseUrl + `/user/${id}`;
+
+      let response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: this.secretKey,
+        },
+      });
+
+      let message;
+
+      if (response.status === 200) {
+        message = await response.json();
+      } else {
+        message = await response.text();
+      }
+
+      return { status: response.status, message };
+    } catch (error) {
+      return { status: 400, message: "error" };
+    }
+  }
+
+  async getAllUsers() {
+    try {
+      const url = this.baseUrl + `/users`;
 
       let response = await fetch(url, {
         method: "GET",
