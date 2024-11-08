@@ -1,4 +1,10 @@
 import crypto from "node:crypto";
+import {
+  UserRequestBody,
+  SendRequestBody,
+  ApiResponse,
+  DeleteUserRequestBody,
+} from "./types/index";
 
 class BackendSDK {
   baseUrl: string;
@@ -17,10 +23,11 @@ class BackendSDK {
       .digest("base64");
   }
 
-  async send(user_id: string, message: string) {
+  // check the return value & add to apiresponse generic type
+  async send(user_id: string, message: string): Promise<ApiResponse> {
     try {
       const url = this.baseUrl + "/notification";
-      const payload = {
+      const payload: SendRequestBody = {
         user_id,
         message,
       };
@@ -41,10 +48,14 @@ class BackendSDK {
     }
   }
 
-  async addUser(id: string, name: string, email: string) {
+  async addUser(
+    id: string,
+    name: string,
+    email: string
+  ): Promise<ApiResponse<string>> {
     try {
       const url = this.baseUrl + "/user";
-      const payload = {
+      const payload: UserRequestBody = {
         id,
         name,
         email,
@@ -67,10 +78,14 @@ class BackendSDK {
     }
   }
 
-  async editUser(id: string, name: string, email: string) {
+  async editUser(
+    id: string,
+    name: string,
+    email: string
+  ): Promise<ApiResponse<string>> {
     try {
       const url = this.baseUrl + "/user";
-      const payload = {
+      const payload: UserRequestBody = {
         id,
         name,
         email,
@@ -93,10 +108,10 @@ class BackendSDK {
     }
   }
 
-  async deleteUser(id: string) {
+  async deleteUser(id: string): Promise<ApiResponse<string>> {
     try {
       const url = this.baseUrl + "/user";
-      const payload = {
+      const payload: DeleteUserRequestBody = {
         id,
       };
 
@@ -116,8 +131,8 @@ class BackendSDK {
       return { status: 400, message: "error" };
     }
   }
-
-  async getUser(id: string) {
+  // check the return value & add to apiresponse generic type
+  async getUser(id: string): Promise<ApiResponse> {
     try {
       const url = this.baseUrl + `/user/${id}`;
 
@@ -141,8 +156,8 @@ class BackendSDK {
       return { status: 400, message: "error" };
     }
   }
-
-  async getAllUsers() {
+  // check the return value & add to apiresponse generic type
+  async getAllUsers(): Promise<ApiResponse> {
     try {
       const url = this.baseUrl + `/users`;
 
