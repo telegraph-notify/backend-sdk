@@ -9,7 +9,7 @@ class BackendSDK {
     this.secretKey = secretKey;
   }
 
-  // creates sha256 naasId from the api secret key and username
+  // creates sha256 HMAC from the api secret key and username
   generateUserHash(username: string): string {
     return crypto
       .createHmac("sha256", this.secretKey)
@@ -29,11 +29,12 @@ class BackendSDK {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: this.secretKey,
         },
         body: JSON.stringify(payload),
       });
 
-      const responseMessage = await response.text();
+      const responseMessage = await response.json();
       return { status: response.status, responseMessage };
     } catch (error) {
       return { status: 400, message: "error" };
@@ -118,8 +119,32 @@ class BackendSDK {
 
   async getUser(id: string) {
     try {
-      const queryString = `?id=${encodeURIComponent(id)}`;
-      const url = this.baseUrl + `/user${queryString}`;
+      const url = this.baseUrl + `/user/${id}`;
+
+      let response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: this.secretKey,
+        },
+      });
+
+      let message;
+
+      if (response.status === 200) {
+        message = await response.json();
+      } else {
+        message = await response.text();
+      }
+
+      return { status: response.status, message };
+    } catch (error) {
+      return { status: 400, message: "error" };
+    }
+  }
+
+  async getAllUsers() {
+    try {
+      const url = this.baseUrl + `/users`;
 
       let response = await fetch(url, {
         method: "GET",
