@@ -189,3 +189,32 @@ telegraph.getAllUsers();
         "message": "error"
       }
       ```
+
+## Get Notification Logs
+```
+telegraph.getNotificationLogs();
+```
+
+**Response:**
+  - **Success (200 OK)**: Returns an array of notification logs.
+    - Example:
+      ```json
+      [
+        {
+          "user_id": "bob",
+          "created_at": "2024-11-10T03:02:25.494Z",
+          "status": "notification request received",
+          "notification_id": "d19e2ff9-7dce-48ec-9368-f6344ac0e2d9",
+          "log_id": "cc6a2f8c-3885-45d5-9800-a57f74dd9b16",
+          "ttl": 1733799745,
+          "message": "hi",
+          "channel": "in-app"
+        }
+      ]
+      ```
+  - **Error**: If there is an error with the request.
+    - Example:
+      ```
+      Error fetching notification logs: Error: HTTP error: 404
+      ```
+
