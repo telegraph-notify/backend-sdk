@@ -166,6 +166,28 @@ class BackendSDK {
       return { status: 400, message: "error" };
     }
   }
+
+  async getNotificationLogs() {
+    try {
+      const url = this.baseUrl + `/notification-logs`;
+
+      let response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: this.secretKey,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching notification logs:", error);
+    }
+  }
 }
 
 export default BackendSDK;
