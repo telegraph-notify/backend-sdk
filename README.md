@@ -1,5 +1,5 @@
 ## Telegraph Node.js SDK
-```
+```js
 import BackendSDK from "./backend-sdk/src/index.ts";
 const telegraph = new BackendSDK(secretKey, httpGateway);
 ```
@@ -10,11 +10,24 @@ Enter your `secretKey` and `httpGateway` from the Telegraph CDK deployment.
 All `telegraph` methods return a Promise that will resolve to the response.
 
 ## Send a Notification
-```
-telegraph.send(user_id, message);
+```js
+telegraph.send({
+  user_id,
+  channels: {
+    in_app?: {
+      message
+    };
+    email?: {
+      subject,
+      message,
+    };
+  };
+});
 ```
   - `user_id` _(string, required)_: The unique identifier of the user receiving the notification.
-  - `message` _(string, required)_: The message to be sent to the user.
+  - `channels.in_app.message` _(string)_: The in-app message to be sent to the user.
+  - `channels.email.subject` _(string)_: The email subject to be sent to the user.
+  - `channels.email.message` _(string)_: The email message to be sent to the user.
 
 **Response:**
   - **Success (200 OK)**: Returns a JSON object with the status code and response message.
@@ -22,29 +35,30 @@ telegraph.send(user_id, message);
       ```json
       {
         "status": 200,
-        "responseMessage": {
-          "user_id": "bob",
-          "created_at": "Thu, 07 Nov 2024 06:18:18 GMT",
-          "status": "notification request received",
-          "notification_id": "cd91d909-be1b-4603-a37a-4426ac10499f",
-          "log_id": "d24a60bc-a8c6-4f04-9f58-1f8de6bb217c",
-          "ttl": 1733552298,
-          "message": "hi",
-          "channel": "in-app"
-        }
+        "body":
+          [
+            {
+              "channel": "in_app",
+              "notification_id": "1865d4a8-94cb-4a4b-bfef-35942abadf18"
+            },
+            {
+              "channel": "email",
+              "notification_id": "27149fcf-1e8d-47f7-b240-6c7db899f861"
+            }
+          ]
       }
       ```
-  - **Error (400 Bad Request)**: Returns an error message if the request fails.
+  - **Error (500 Internal Server Error)**: Returns an error message if the request fails.
     - Example:
       ```json
       {
-        "status": 400,
-        "message": "error"
+        "status": 500,
+        "body": "Internal Server Error"
       }
       ```
       
 ## Add User
-```
+```js
 telegraph.addUser(id, name, email);
 ```
   - `id` _(string, required)_: The unique identifier of the user.
@@ -57,20 +71,20 @@ telegraph.addUser(id, name, email);
       ```json
       {
         "status": 200,
-        "message": "User added successfully"
+        "body": "User added successfully"
       }
       ```
-  - **Error (400 Bad Request)**: Returns an error message if the request fails.
+  - **Error (500 Internal Server Error)**: Returns an error message if the request fails.
     - Example:
       ```json
       {
-        "status": 400,
-        "message": "error"
+        "status": 500,
+        "body": "Internal Server Error"
       }
       ```
 
 ## Edit User
-```
+```js
 telegraph.editUser(id, name, email);
 ```
   - `id` _(string, required)_: The unique identifier of the user.
@@ -83,20 +97,20 @@ telegraph.editUser(id, name, email);
       ```json
       {
         "status": 200,
-        "message": "User updated successfully"
+        "body": "User edited"
       }
       ```
-  - **Error (400 Bad Request)**: Returns an error message if the request fails.
+  - **Error (500 Internal Server Error)**: Returns an error message if the request fails.
     - Example:
       ```json
       {
-        "status": 400,
-        "message": "error"
+        "status": 500,
+        "body": "Internal Server Error"
       }
       ```
 
 ## Delete User
-```
+```js
 telegraph.deleteUser(id);
 ```
   - `id` _(string, required)_: The unique identifier of the user to be deleted.
@@ -107,20 +121,28 @@ telegraph.deleteUser(id);
       ```json
       {
         "status": 200,
-        "message": "User deleted successfully"
+        "body": "User deleted successfully"
       }
       ```
-  - **Error (400 Bad Request)**: Returns an error message if the request fails.
+  - **Error (404 Not Found)**: Returns an error message if the user does not exist.
     - Example:
       ```json
       {
-        "status": 400,
-        "message": "error"
+        "status": 404,
+        "message": "User does not exist"
+      }
+      ```
+  - **Error (500 Internal Server Error)**: Returns an error message if the request fails.
+    - Example:
+      ```json
+      {
+        "status": 500,
+        "message": "Internal Server Error"
       }
       ```
 
 ## Get User
-```
+```js
 telegraph.getUser(id);
 ```
   - `id` _(string, required)_: The unique identifier of the user to retrieve.
@@ -131,7 +153,7 @@ telegraph.getUser(id);
       ```json
       {
         "status": 200,
-        "message": {
+        "body": {
           "id": "12345",
           "name": "John Doe",
           "email": "john.doe@example.com"
@@ -146,27 +168,27 @@ telegraph.getUser(id);
         "message": "User not found"
       }
       ```
-  - **Error (400 Bad Request)**: If there is an error with the request.
+  - **Error (500 Internal Server Error)**: If there is an error with the request.
     - Example:
       ```json
       {
-        "status": 400,
-        "message": "error"
+        "status": 500,
+        "body": "Internal Server Error"
       }
       ```
 
 ## Get All Users
-```
+```js
 telegraph.getAllUsers();
 ```
 
 **Response:**
-  - **Success (200 OK)**: Returns an array of users.
+  - **Success (200 OK)**: Returns a JSON object with the status code and response message.
     - Example:
       ```json
       {
         "status": 200,
-        "message":
+        "body":
           [
             {
               "id": "bob",
@@ -181,17 +203,17 @@ telegraph.getAllUsers();
           ]
       }
       ```
-  - **Error (400 Bad Request)**: If there is an error with the request.
+  - **Error (500 Internal Server Error)**: If there is an error with the request.
     - Example:
       ```json
       {
-        "status": 400,
-        "message": "error"
+        "status": 500,
+        "body": "Internal Server Error"
       }
       ```
 
 ## Get Notification Logs
-```
+```js
 telegraph.getNotificationLogs();
 ```
 
