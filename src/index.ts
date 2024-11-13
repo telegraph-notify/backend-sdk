@@ -1,5 +1,29 @@
 import crypto from "node:crypto";
 
+interface NotificationPayload {
+  user_id: string;
+  channels: {
+    in_app?: {
+      message: string;
+    };
+    email?: {
+      subject: string;
+      message: string;
+    };
+  };
+}
+
+// input validation
+function isValid(...args: string[]) {
+  for (let i = 0; i < args.length; i++) {
+    if (typeof args[i] !== "string" || !args[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 class BackendSDK {
   baseUrl: string;
   secretKey: string;
@@ -17,13 +41,13 @@ class BackendSDK {
       .digest("base64");
   }
 
-  async send(user_id: string, message: string) {
+  async send(payload: NotificationPayload) {
+    if (!isValid(payload.user_id)) {
+      return { status: 400, body: "Error: user_id is required" };
+    }
+
     try {
       const url = this.baseUrl + "/notification";
-      const payload = {
-        user_id,
-        message,
-      };
 
       let response = await fetch(url, {
         method: "POST",
@@ -34,21 +58,24 @@ class BackendSDK {
         body: JSON.stringify(payload),
       });
 
-      const responseMessage = await response.json();
-      return { status: response.status, responseMessage };
+      const body = await response.json();
+      return { status: response.status, body };
     } catch (error) {
-      return { status: 400, message: "error" };
+      return { status: 500, body: "Internal Server Error" };
     }
   }
 
   async addUser(id: string, name: string, email: string) {
+    if (!isValid(id, name, email)) {
+      return { status: 400, body: "Error: id, name and email are required" };
+    }
+
     try {
       const url = this.baseUrl + "/user";
       const payload = {
         id,
         name,
         email,
-        userHash: this.generateUserHash(id),
       };
 
       let response = await fetch(url, {
@@ -60,21 +87,24 @@ class BackendSDK {
         body: JSON.stringify(payload),
       });
 
-      const message = await response.text();
-      return { status: response.status, message };
+      const body = await response.text();
+      return { status: response.status, body };
     } catch (error) {
-      return { status: 400, message: "error" };
+      return { status: 500, body: "Internal Server Error" };
     }
   }
 
   async editUser(id: string, name: string, email: string) {
+    if (!isValid(id, name, email)) {
+      return { status: 400, body: "Error: id, name and email are required" };
+    }
+
     try {
       const url = this.baseUrl + "/user";
       const payload = {
         id,
         name,
         email,
-        userHash: this.generateUserHash(id),
       };
 
       let response = await fetch(url, {
@@ -86,14 +116,18 @@ class BackendSDK {
         body: JSON.stringify(payload),
       });
 
-      const message = await response.text();
-      return { status: response.status, message };
+      const body = await response.text();
+      return { status: response.status, body };
     } catch (error) {
-      return { status: 400, message: "error" };
+      return { status: 500, body: "Internal Server Error" };
     }
   }
 
   async deleteUser(id: string) {
+    if (!isValid(id)) {
+      return { status: 400, body: "Error: id is required" };
+    }
+
     try {
       const url = this.baseUrl + "/user";
       const payload = {
@@ -109,15 +143,18 @@ class BackendSDK {
         body: JSON.stringify(payload),
       });
 
-      const message = await response.text();
-      return { status: response.status, message };
+      const body = await response.text();
+      return { status: response.status, body };
     } catch (error) {
-      // return actual message
-      return { status: 400, message: "error" };
+      return { status: 500, body: "Internal Server Error" };
     }
   }
 
   async getUser(id: string) {
+    if (!isValid(id)) {
+      return { status: 400, body: "Error: id is required" };
+    }
+
     try {
       const url = this.baseUrl + `/user/${id}`;
 
@@ -128,17 +165,17 @@ class BackendSDK {
         },
       });
 
-      let message;
+      let body;
 
       if (response.status === 200) {
-        message = await response.json();
+        body = await response.json();
       } else {
-        message = await response.text();
+        body = await response.text();
       }
 
-      return { status: response.status, message };
+      return { status: response.status, body };
     } catch (error) {
-      return { status: 400, message: "error" };
+      return { status: 500, body: "Internal Server Error" };
     }
   }
 
@@ -153,23 +190,23 @@ class BackendSDK {
         },
       });
 
-      let message;
+      let body;
 
       if (response.status === 200) {
-        message = await response.json();
+        body = await response.json();
       } else {
-        message = await response.text();
+        body = await response.text();
       }
 
-      return { status: response.status, message };
+      return { status: response.status, body };
     } catch (error) {
-      return { status: 400, message: "error" };
+      return { status: 500, body: "Internal Server Error" };
     }
   }
 
   async getNotificationLogs() {
     try {
-      const url = this.baseUrl + `/notification-logs`;
+      const url = this.baseUrl + `/notifications`;
 
       let response = await fetch(url, {
         method: "GET",
@@ -185,7 +222,7 @@ class BackendSDK {
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error("Error fetching notification logs:", error);
+      return { status: 500, body: "Internal Server Error" };
     }
   }
 }
