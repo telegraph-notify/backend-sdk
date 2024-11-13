@@ -206,7 +206,7 @@ class BackendSDK {
 
   async getNotificationLogs() {
     try {
-      const url = this.baseUrl + `/notification-logs`;
+      const url = this.baseUrl + `/notifications`;
 
       let response = await fetch(url, {
         method: "GET",
