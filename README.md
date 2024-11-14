@@ -142,7 +142,7 @@ telegraph.deleteUser(id);
     ```json
     {
       "status": 404,
-      "message": "User does not exist"
+      "body": "User does not exist"
     }
     ```
 - **Error (500 Internal Server Error)**: Returns an error message if the request fails.
@@ -150,7 +150,7 @@ telegraph.deleteUser(id);
     ```json
     {
       "status": 500,
-      "message": "Internal Server Error"
+      "body": "Internal Server Error"
     }
     ```
 
@@ -188,7 +188,7 @@ telegraph.getUser(id);
     ```json
     {
       "status": 404,
-      "message": "User not found"
+      "body": "User not found"
     }
     ```
 - **Error (500 Internal Server Error)**: If there is an error with the request.
