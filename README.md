@@ -170,9 +170,16 @@ telegraph.getUser(id);
     {
       "status": 200,
       "body": {
-        "id": "12345",
-        "name": "John Doe",
-        "email": "john.doe@example.com"
+        "id": "bob",
+        "name": "bob smith",
+        "email": "bob@bob.com",
+        "last_seen": "2024-11-14T04:38:58.598Z",
+        "created_at": "2024-11-14T04:38:55.278Z",
+        "last_notified": "2024-11-14T04:52:26.662Z",
+        "preferences": {
+          "email": true,
+          "in_app": true
+        }
       }
     }
     ```
@@ -208,14 +215,28 @@ telegraph.getAllUsers();
       "status": 200,
       "body": [
         {
-          "id": "bob",
+          "last_seen": "2024-11-14T04:38:58.598Z",
+          "created_at": "2024-11-14T04:38:55.278Z",
+          "last_notified": "2024-11-14T04:52:26.662Z",
           "email": "bob@bob.com",
-          "name": "bob"
+          "id": "bob",
+          "name": "bob",
+          "preferences": {
+            "email": true,
+            "in_app": true
+          }
         },
         {
-          "id": "alice",
+          "last_seen": "2024-11-14T04:30:55.046Z",
+          "created_at": "2024-11-14T04:29:10.277Z",
+          "last_notified": "2024-11-14T04:30:58.141Z",
           "email": "alice@alice.com",
-          "name": "alice"
+          "id": "alice",
+          "name": "alice",
+          "preferences": {
+            "email": true,
+            "in_app": true
+          }
         }
       ]
     }
