@@ -10,7 +10,17 @@ interface NotificationPayload {
       subject: string;
       message: string;
     };
+    slack?: {
+      message: string;
+    };
   };
+}
+
+interface UserPayload {
+  id: string;
+  name: string;
+  email: string;
+  slack?: string;
 }
 
 // input validation
@@ -65,18 +75,22 @@ class BackendSDK {
     }
   }
 
-  async addUser(id: string, name: string, email: string) {
+  async addUser(id: string, name: string, email: string, slack: string = "") {
     if (!isValid(id, name, email)) {
       return { status: 400, body: "Error: id, name and email are required" };
     }
 
     try {
       const url = this.baseUrl + "/user";
-      const payload = {
+      const payload: UserPayload = {
         id,
         name,
         email,
       };
+
+      if (slack) {
+        payload.slack = slack;
+      }
 
       let response = await fetch(url, {
         method: "POST",
@@ -94,18 +108,22 @@ class BackendSDK {
     }
   }
 
-  async editUser(id: string, name: string, email: string) {
+  async editUser(id: string, name: string, email: string, slack: string = "") {
     if (!isValid(id, name, email)) {
       return { status: 400, body: "Error: id, name and email are required" };
     }
 
     try {
       const url = this.baseUrl + "/user";
-      const payload = {
+      const payload: UserPayload = {
         id,
         name,
         email,
       };
+
+      if (slack) {
+        payload.slack = slack;
+      }
 
       let response = await fetch(url, {
         method: "PUT",
