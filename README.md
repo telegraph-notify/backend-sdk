@@ -19,19 +19,23 @@ telegraph.send({
   channels: {
     in_app?: {
       message
-    };
+    },
     email?: {
       subject,
       message,
-    };
-  };
+    },
+    slack?: {
+      message,
+    },
+  },
 });
 ```
 
 - `user_id` _(string, required)_: The unique identifier of the user receiving the notification.
-- `channels.in_app.message` _(string)_: The in_app message to be sent to the user.
-- `channels.email.subject` _(string)_: The email subject to be sent to the user.
-- `channels.email.message` _(string)_: The email message to be sent to the user.
+- `channels.in_app.message` _(string, optional)_: The in_app message to be sent to the user.
+- `channels.email.subject` _(string, optional)_: The email subject to be sent to the user.
+- `channels.email.message` _(string, optional)_: The email message to be sent to the user.
+- `channels.slack.message` _(string, optional)_: The email message to be sent to the user.
 
 **Response:**
 
@@ -64,12 +68,13 @@ telegraph.send({
 ## Add User
 
 ```js
-telegraph.addUser(id, name, email);
+telegraph.addUser(id, name, email, slack);
 ```
 
 - `id` _(string, required)_: The unique identifier of the user.
 - `name` _(string, required)_: The full name of the user.
 - `email` _(string, required)_: The email address of the user.
+- `slack` _(string, optional)_: The Slack webhook of the user.
 
 **Response:**
 
@@ -93,12 +98,13 @@ telegraph.addUser(id, name, email);
 ## Edit User
 
 ```js
-telegraph.editUser(id, name, email);
+telegraph.editUser(id, name, email, slack);
 ```
 
 - `id` _(string, required)_: The unique identifier of the user.
 - `name` _(string, required)_: The updated full name of the user.
 - `email` _(string, required)_: The updated email address of the user.
+- `slack` _(string, optional)_: The Slack webhook of the user.
 
 **Response:**
 
@@ -178,7 +184,8 @@ telegraph.getUser(id);
         "last_notified": "2024-11-14T04:52:26.662Z",
         "preferences": {
           "email": true,
-          "in_app": true
+          "in_app": true,
+          "slack": false,
         }
       }
     }
@@ -223,7 +230,8 @@ telegraph.getAllUsers();
           "name": "bob",
           "preferences": {
             "email": true,
-            "in_app": true
+            "in_app": true,
+            "slack": false,
           }
         },
         {
@@ -235,7 +243,8 @@ telegraph.getAllUsers();
           "name": "alice",
           "preferences": {
             "email": true,
-            "in_app": true
+            "in_app": true,
+            "slack": false,
           }
         }
       ]
