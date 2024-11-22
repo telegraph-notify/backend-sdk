@@ -68,7 +68,7 @@ telegraph.send({
 ## Generate Client HMAC
 
 ```js
-telegraph.generateUserHash(user_id);
+telegraph.generateHMAC(user_id);
 ```
 
 - `user_id` _(string, required)_: The unique identifier of the user.
