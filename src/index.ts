@@ -34,7 +34,7 @@ function isValid(...args: string[]) {
   return true;
 }
 
-class BackendSDK {
+class TelegraphBackendSDK {
   baseUrl: string;
   secretKey: string;
 
@@ -245,4 +245,4 @@ class BackendSDK {
   }
 }
 
-export default BackendSDK;
+export default TelegraphBackendSDK;
