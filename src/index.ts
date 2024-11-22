@@ -44,7 +44,7 @@ class BackendSDK {
   }
 
   // creates sha256 HMAC from the api secret key and username
-  generateUserHash(username: string): string {
+  generateHMAC(username: string): string {
     return crypto
       .createHmac("sha256", this.secretKey)
       .update(username)
