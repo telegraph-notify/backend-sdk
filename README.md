@@ -1,5 +1,30 @@
 ## Telegraph Node.js SDK
 
+The Node.js SDK for Telegraph is used for sending notifications to users, and also for managing user-related data on the Telegraph database.
+
+## Table of Contents
+
+- [Quick Start](#quick-start)
+- [Usage](#usage)
+- [Send a Notification](#send-a-notification)
+- [Generate Client HMAC](#generate-client-hmac)
+- [Add User](#add-user)
+- [Edit User](#edit-user)
+- [Delete User](#delete-user)
+- [Get User](#get-user)
+- [Get All Users](#get-all-users)
+- [Get Notification Logs](#get-notification-logs)
+
+## Quick Start
+
+Install the SDK from npm.
+
+```bash
+$ npm i @telegraph-notify/backend-sdk
+```
+
+Then import the SDK for use in the application code.
+
 ```js
 import Telegraph from "@telegraph-notify/backend-sdk";
 const telegraph = new Telegraph(secretKey, httpGateway);
