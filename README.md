@@ -1,11 +1,36 @@
 ## Telegraph Node.js SDK
 
-```js
-import BackendSDK from "./backend-sdk/src/index.ts";
-const telegraph = new BackendSDK(secretKey, httpGateway);
+The Node.js SDK for Telegraph is used for sending notifications to users, and also for managing user-related data on the Telegraph database.
+
+## Table of Contents
+
+- [Quick Start](#quick-start)
+- [Usage](#usage)
+- [Send a Notification](#send-a-notification)
+- [Generate Client HMAC](#generate-client-hmac)
+- [Add User](#add-user)
+- [Edit User](#edit-user)
+- [Delete User](#delete-user)
+- [Get User](#get-user)
+- [Get All Users](#get-all-users)
+- [Get Notification Logs](#get-notification-logs)
+
+## Quick Start
+
+Install the SDK from npm.
+
+```bash
+$ npm i @telegraph-notify/backend-sdk
 ```
 
-Enter your `secretKey` and `httpGateway` from the Telegraph CDK deployment.
+Then import the SDK for use in the application code.
+
+```js
+import Telegraph from "@telegraph-notify/backend-sdk";
+const telegraph = new Telegraph(secretKey, httpGateway);
+```
+
+Enter your `secretKey` and `httpGateway` from the Telegraph CLI deployment.
 
 ## Usage
 
@@ -78,7 +103,7 @@ telegraph.generateHMAC(user_id);
 - **Success**: Returns the client HMAC as a string with base64 encoding.
   - Example:
     ```js
-    "BojdvcqEyK4CHwQ="
+    "BojdvcqEyK4CHwQ=";
     ```
 
 ## Add User
@@ -201,7 +226,7 @@ telegraph.getUser(id);
         "preferences": {
           "email": true,
           "in_app": true,
-          "slack": false,
+          "slack": false
         }
       }
     }
@@ -247,7 +272,7 @@ telegraph.getAllUsers();
           "preferences": {
             "email": true,
             "in_app": true,
-            "slack": false,
+            "slack": false
           }
         },
         {
@@ -260,7 +285,7 @@ telegraph.getAllUsers();
           "preferences": {
             "email": true,
             "in_app": true,
-            "slack": false,
+            "slack": false
           }
         }
       ]
