@@ -11,7 +11,7 @@
     "dist",
     "README.md"
   ],
-  "version": "1.0.1",
+  "version": "1.0.2",
   "scripts": {
     "build": "rm -rf dist && npm run build:esm && npm run build:cjs && cp -r dist/types/* dist/cjs",
     "build:esm": "tsc -p tsconfig.json",
